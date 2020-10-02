@@ -11,7 +11,7 @@ Vue.use(VueRouter)
     {
       name:'login',
       path:'/login',
-      component:()=>import('../components/login/login.vue')
+      component:()=>import('../views/login.vue')
     },
     {
       name:'register',
