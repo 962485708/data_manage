@@ -2,8 +2,8 @@
   <div class="login">
     <div class="wrapper">
       <div class="sys-text">
-        <div><span>系统名称</span></div>
-        <div><span>XXXXX平台登录</span></div>
+        <div><img src="../assets/icon/logo.png" alt=""></div>
+        <div><span>平台登录</span></div>
       </div>
       <div class="login-container">
         <el-form label-width="55px">
@@ -86,7 +86,7 @@ import {setCookie, getCookie, clearCookie} from "../http/cookies"
         let rememberPassword = this.rememberPassword
         if(this.name == this.ruleForm.username && this.pass == this.ruleForm.password) {
           this.$options.methods.rememberPass(rememberPassword, that.ruleForm.username, that.ruleForm.password)
-          this.$router.push('/main')
+          this.$router.push('/main/integration')
         }else {
           this.$message.error('账号或密码错误，请核对后重新填写');
         }
@@ -120,9 +120,13 @@ import {setCookie, getCookie, clearCookie} from "../http/cookies"
   }
   .sys-text {
     padding: 3%;
+    font-family: sans-serif;
     font-size: 4.5em;
     color: #5267E6;
     letter-spacing: 0.15em;
+  }
+  .sys-text img {
+    width: 110px;
   }
   .sys-text div:nth-of-type(2) {
     margin-left: 10%;
