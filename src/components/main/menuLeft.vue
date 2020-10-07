@@ -4,7 +4,7 @@
       <el-row class="tac">
         <el-col :span="12">
           <el-menu
-            default-active="2"
+            :default-active="activeMenu"
             class="el-menu-vertical-demo"
             @open="handleOpen"
             @close="handleClose"
@@ -17,9 +17,9 @@
                 <span>数据展现</span>
               </template>
               <el-menu-item-group>
-                <el-menu-item index="2-1" :route="{path:'/main/details/market'}">销售部</el-menu-item>
-                <el-menu-item index="2-2" :route="{path:'/main/details/develop'}">开发部</el-menu-item>
-                <el-menu-item index="2-3" :route="{path:'/main/details/operation'}">运营部</el-menu-item>
+                <el-menu-item index="2-1" :route="{path:'/main/dataShow/market'}">销售部</el-menu-item>
+                <el-menu-item index="2-2" :route="{path:'/main/dataShow/develop'}">开发部</el-menu-item>
+                <el-menu-item index="2-3" :route="{path:'/main/dataShow/operation'}">运营部</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
             <el-menu-item index="3" :route="{path:'/main/analysis'}">
@@ -27,6 +27,9 @@
             </el-menu-item>
             <el-menu-item index="4" :route="{path:'/main/datawarn'}">
               <span slot="title">数据智能预警</span>
+            </el-menu-item>
+            <el-menu-item index="5" :route="{path:'/main/setting'}">
+              <span slot="title">设置</span>
             </el-menu-item>
           </el-menu>
         </el-col>
@@ -37,6 +40,28 @@
 
 <script>
 export default {
+  data() {
+    return {
+      activeMenu: '1',
+      navConfig: {
+        'index': '2',
+        'dataShow/market': '2-1',
+        'dataShow/develop': '2-2',
+        'dataShow/operation': '2-3',
+        'integration': '1',
+        'analysis': '3',
+        'datawarn': '4',
+        'setting': '5'
+      },
+    }
+  },
+  mounted() {
+    //保证浏览器刷新后，之前选中的路由仍高亮
+    var that = this
+    var href = window.location.href
+    href = href.split('/main/')[1]
+    that.activeMenu = this.navConfig[href]
+  },
   methods: {
     handleOpen(key, keyPath) {
       console.log(key, keyPath);

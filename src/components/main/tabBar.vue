@@ -30,7 +30,7 @@ export default {
   width: 1200px;
   height: 60px;
   background-color: #fff;
-  box-shadow: 3px 3px 3px #ccc;
+  box-shadow: 0 1px 2px #ccc;
   position: fixed;
   top: 0;
   z-index: 999;

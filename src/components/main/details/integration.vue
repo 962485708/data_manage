@@ -3,14 +3,13 @@
     <div class="inte-title">
       <span>请配置需要继承的数据包或数据来源</span>
     </div>
-
-    <div class="inte-wrapper clearfix">
-      <div>
+    <div class="inte-wrapper">
+      <div class="inte-wrapper-text">
+        <span>*</span>
         <span>数据来源</span>
       </div>
       <tab-pane class="inte-form"/>
     </div>
-    
   </div>
 </template>
 
@@ -27,20 +26,16 @@ export default {
 <style scoped>
   .integration {
     width: 100%;
+    padding: 0 50px;
   }
   .inte-title {
     color: #4F62C4;
     font-size: 3em;
     font-weight: 600;
-    margin: 20px 30px 20px 30px;
+    margin: 20px 0;
   }
   .inte-form {
-    position: absolute;
-    top: 20%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     overflow: auto;
-    display: block;
   }
   .clearfix:after {
     clear:both;
@@ -48,7 +43,20 @@ export default {
     display:block;
     height: 0;
   }
-  /* .inte-wrapper {
+  .inte-wrapper {
     display: flex;
-  } */
+    margin-top: 20px;
+  }
+  .inte-wrapper-text {
+    margin: 0 40px;
+    padding-top: 40px;
+  }
+  .inte-wrapper-text span {
+    color: #3A4891;
+    font-size: 2.5em;
+    font-weight: 600;
+  }
+  .inte-wrapper-text span:first-of-type{
+    color: red;
+  }
 </style>

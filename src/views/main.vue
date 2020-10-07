@@ -47,7 +47,7 @@ export default {
     right: 0;
     left: 0;
     bottom: 0;
-    background: url('../assets/img/main/底色.jpg');
+    background: url('../assets/img/main/底色.jpg') repeat-y;
     background-size: contain;
     opacity: 0.3;
     z-index: -1;

@@ -4,28 +4,33 @@
       <el-tab-pane label="数据存储位置">
         <el-form :model="dynamicValidateForm" ref="dynamicValidateForm" label-width="100px" class="demo-dynamic">
           <el-form-item
-            v-for="(file, index) in dynamicValidateForm.files"
+            v-for="(formItem, index) in dynamicValidateForm.formItems"
             :label="'数据来源' + (index + 1)"
-            :key="file.key"
+            :key="formItem.key"
             :rules="{
               required: true, message: '文件不能为空', trigger: 'blur'
             }">
             <el-upload
               class="file-upload"
               action="https://jsonplaceholder.typicode.com/posts/"
+              :on-success="handleSuccess"
+              :on-remove="handleRemove"
               :limit="1">
               <el-button size="small" type="primary">点击上传</el-button>
-              <el-button @click.prevent="removeFile(file)">删除</el-button>
             </el-upload>
+            <el-button @click.prevent="removeFile(formItem, index)">删除</el-button>
           </el-form-item>
         </el-form>
-        <div class="add-file" @click="addFile">
+        <div class="add-file" ref="addfile" @click="addFile">
           <img src="../../assets/icon/main/plus.png" alt="增加数据来源">
           <span>增加数据来源</span>
         </div>
       </el-tab-pane>
     </el-tabs>
-    <el-button type="primary" @click="submitForm('dynamicValidateForm')">提交</el-button>
+    <div class="submit">
+      <el-button type="primary" @click="submitForm('dynamicValidateForm')">提交</el-button>
+      <el-button type="primary" ref="download" :loading="loadingBtn">{{loadingBtn?'正在集成中':'下载集成数据包'}}</el-button>
+    </div>
   </div>
 </template>
 
@@ -34,39 +39,57 @@ export default {
   name: 'tabPane',
   data() {
     return {
+      fileList: [],
+      loadingBtn: false,
       dynamicValidateForm: {
-        files: [{
+        formItems: [{
           value: ''
         }],
-      }
+      },
     }
   },
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!');
+          if(this.fileList.length > 0) {
+            this.$message.success('正在集成，请稍后…');
+            this.loadingBtn = true
+          } else {
+            this.$message.warning('文件不能为空')
+          }
         } else {
           console.log('error submit!!');
           return false;
         }
       });
     },
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
-    },
-    removeFile(item) {
-      var index = this.dynamicValidateForm.files.indexOf(item)
-      if (index !== -1) {
-        this.dynamicValidateForm.files.splice(index, 1)
+    removeFile(item, index) {
+      this.fileList.pop(index)
+      console.log(this.fileList)
+      var _index = this.dynamicValidateForm.formItems.indexOf(item)
+      if (_index !== -1) {
+        this.dynamicValidateForm.formItems.splice(_index, 1)
       }
     },
     addFile() {
-      this.dynamicValidateForm.files.push({
+      this.dynamicValidateForm.formItems.push({
         value: '',
         key: Date.now()
       });
-    }
+      if(this.dynamicValidateForm.formItems.length === 3) {
+        this.$refs.addfile.style.display = 'none'
+      }
+    },
+    handleRemove(file, fileList) {
+      this.fileList = fileList
+    },
+    handleSuccess(response, file, fileList) {
+      this.fileList.push({
+        name: file.name,
+        url: file.response
+      });
+    },
   }
 }
 </script>
@@ -115,14 +138,33 @@ export default {
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
   }
-  .tab-pane>>>.file-upload {
+  .file-upload {
     display: flex;
+    width: fit-content;
+  }
+  .tab-pane>>>.el-form-item__content {
+    display: flex;
+    position: relative;
+  }
+  .tab-pane>>>.el-button--default {
+    position: absolute;
+    right: 30px;
+    top: 0;
   }
   .tab-pane>>>.el-upload-list {
     margin-left: 30px;
+    width: 250px;
   }
   .tab-pane>>>.el-upload-list__item-name {
-    width: 250px;
+    width: 160px;
     margin-left: 20px;
+  }
+  .submit {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-around;
+  }
+  .submit button {
+    width: 150px;
   }
 </style>

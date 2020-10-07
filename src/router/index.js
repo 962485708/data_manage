@@ -25,17 +25,17 @@ Vue.use(VueRouter)
         },
         {
           name:'market',
-          path:'details/market',
+          path:'dataShow/market',
           component:()=>import('../components/main/details/dataShow/market.vue'),
         },
         {
           name:'develop',
-          path:'details/develop',
+          path:'dataShow/develop',
           component:()=>import('../components/main/details/dataShow/develop.vue'),
         },
         {
           name:'operation',
-          path:'details/operation',
+          path:'dataShow/operation',
           component:()=>import('../components/main/details/dataShow/operation.vue'),
         },
         {
@@ -47,6 +47,11 @@ Vue.use(VueRouter)
           name:'datawarn',
           path:'datawarn',
           component:()=>import('../components/main/details/dataWarn.vue'),
+        },
+        {
+          name:'setting',
+          path:'setting',
+          component:()=>import('../components/main/details/setting.vue'),
         },
       ]
     }
