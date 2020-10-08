@@ -11,18 +11,6 @@ export default {
     return {
       sizeValue: '57%',
       symbolSize: 2.5,
-      data: [
-        ["Income","Life Expectancy","Population","Country","Year"],
-        [815,34.05,351014,"Australia",1800],
-        [1314,39,645526,"Canada",1800],
-        [985,32,321675013,"China",1800],
-        [4480,42.8,22623571,"United Kingdom",1850],
-        [3059,39.41,24136293,"United States",1850],
-        [1525,35.9,14848599,"Poland",1860],
-        [1896,29.5734572,44966686,"Russia",1860],
-        [1514,35,11428718,"Turkey",1860],
-        [5268,43.01,24783522,"United Kingdom",1860]
-      ],
       
       option: {
         legend: {},
@@ -118,6 +106,6 @@ export default {
 <style>
   .my-chart {
     width: 100%;
-    height:600px;
+    height: 600px;
   }
 </style>

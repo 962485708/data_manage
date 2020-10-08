@@ -29,7 +29,7 @@
     </el-tabs>
     <div class="submit">
       <el-button type="primary" @click="submitForm('dynamicValidateForm')">提交</el-button>
-      <el-button type="primary" ref="download" :loading="loadingBtn">{{loadingBtn?'正在集成中':'下载集成数据包'}}</el-button>
+      <el-button type="primary" ref="dynamicValidateForm" :loading="loadingBtn">{{loadingBtn?'正在集成中':'下载集成数据包'}}</el-button>
     </div>
   </div>
 </template>
@@ -66,7 +66,6 @@ export default {
     },
     removeFile(item, index) {
       this.fileList.pop(index)
-      console.log(this.fileList)
       var _index = this.dynamicValidateForm.formItems.indexOf(item)
       if (_index !== -1) {
         this.dynamicValidateForm.formItems.splice(_index, 1)
