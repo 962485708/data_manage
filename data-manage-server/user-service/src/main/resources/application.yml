@@ -1,19 +1,19 @@
 server:
-  port: 8801
+  port: 8901
 
 spring:
   application:
     name: user-service
   datasource:
-    url: jdbc:mysql://cdb-7erxhsui.cd.tencentcdb.com:10025
+    url: jdbc:mysql://cdb-7erxhsui.cd.tencentcdb.com:10025/data-manage
     username: root
     password: datamanage123456
-    jpa:
-      database: MySQL
-      database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-      show-sql: true
-      hibernate:
-        ddl-auto: update
+  jpa:
+    database: MySQL
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
 
 eureka:
   client:

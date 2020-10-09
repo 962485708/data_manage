@@ -10,22 +10,30 @@ import network.response.ResponseCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 @Service
 public class UserService {
     @Autowired
     UserRepository userRepository;
 
-    BaseResponse<String> createUser(String userName, String userPassword, String userMail) {
+    public BaseResponse<String> createUser(String userName, String userPassword, String userMail) {
         User user = new User(userName, userPassword, userMail);
         try {
-            userRepository.save(user);
-            return new BaseResponse<>(ResponseCode.SUCCESS, "");
+            //先检查是否邮箱已存在
+            if (userRepository.findByMail(userMail) != null) {
+                return new BaseResponse<>(ResponseCode.DUPLICATE, "");
+            } else {
+                userRepository.save(user);
+                return new BaseResponse<>(ResponseCode.SUCCESS, "");
+            }
         } catch (Exception e) {
             return new BaseResponse<>(ResponseCode.DUPLICATE, "");
         }
     }
 
-    BaseResponse<User> getUser(String mail) {
+    public BaseResponse<User> getUser(String mail) {
         try {
             User user = userRepository.findByMail(mail);
             return new BaseResponse<>(ResponseCode.SUCCESS, user);
