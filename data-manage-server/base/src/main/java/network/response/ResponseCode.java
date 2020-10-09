@@ -11,7 +11,8 @@ public enum ResponseCode {
     SERVER_ERROR(500,"服务器内部错误"),
     DUPLICATE(400,"重复的数据"),
     PARAM_ERROR(401,"请求数据格式错误"),
-    NO_ERROR(404,"查询没有结果");
+    NO_ERROR(404,"查询没有结果"),
+    AUTH_ERROR(405, "鉴权失败，用户名或密码错误"),;
 
     private Integer code;
     private String message;

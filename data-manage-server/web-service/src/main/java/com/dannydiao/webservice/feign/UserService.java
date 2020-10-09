@@ -19,4 +19,8 @@ public interface UserService {
 
     @RequestMapping(value = "/getByMail", method = RequestMethod.GET)
     BaseResponse<?> getByMail(@RequestParam("userMail") String userMail);
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    BaseResponse<String> login(@RequestParam("userMail") String userMail,
+                               @RequestParam("userPassword") String userPassword);
 }

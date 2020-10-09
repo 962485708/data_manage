@@ -31,4 +31,10 @@ public class UserController {
     BaseResponse<User> getByMail(@RequestParam("userMail") String userMail) {
         return userService.getUser(userMail);
     }
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    BaseResponse<String> login(@RequestParam("userMail") String userMail,
+                               @RequestParam("userPassword") String userPassword) {
+        return userService.login(userMail, userPassword);
+    }
 }
