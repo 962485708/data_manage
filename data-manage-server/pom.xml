@@ -56,12 +56,7 @@
             <optional>true</optional>
         </dependency>
 
-        <!--base基础库-->
-        <dependency>
-            <groupId>com.dannydiao</groupId>
-            <artifactId>base</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
+
     </dependencies>
 
     <modules>
@@ -93,10 +88,6 @@
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
         </plugins>
     </build>
 

@@ -36,6 +36,12 @@
 			<artifactId>gson</artifactId>
 			<version>2.8.6</version>
 		</dependency>
+		<!--base基础库-->
+		<dependency>
+			<groupId>com.dannydiao</groupId>
+			<artifactId>base</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>
