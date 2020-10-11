@@ -6,8 +6,6 @@
           <el-menu
             :default-active="activeMenu"
             class="el-menu-vertical-demo"
-            @open="handleOpen"
-            @close="handleClose"
             :router=true >
             <el-menu-item index="1" :route="{path:'/main/integration'}">
               <span slot="title">异构数据集成</span>
@@ -63,12 +61,6 @@ export default {
     that.activeMenu = this.navConfig[href]
   },
   methods: {
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath);
-    }
   }
 }
 </script>

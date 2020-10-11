@@ -3,49 +3,96 @@
     <div class="wrapper">
       <div class="sys-text">
         <div><img src="../assets/icon/logo.png" alt=""></div>
-        <div><span>平台登录</span></div>
       </div>
-      <div class="login-container">
-        <el-form label-width="55px">
-          <div class="input-box">
-            <el-form-item label="" prop="ruleForm.username">
-              <img src="../assets/icon/login/用户名.png" alt="用户名" class="login-icon">
-              <el-input v-model="ruleForm.username" auto-complete="off" placeholder="请输入用户名"></el-input>
-            </el-form-item>
-            <el-form-item label="" prop="ruleForm.password">
-              <img src="../assets/icon/login/密码.png" alt="密码" class="login-icon">
-              <el-input type="password" v-model="ruleForm.password" auto-complete="off" placeholder="请输入密码"></el-input>
-            </el-form-item>
-          </div>
-          <div class="login-box">
-            <el-form-item class="login-submit">
-              <div class="remember-pass">
-                <input type="checkbox" v-model="rememberPassword" @click="doRememberPassword">
-                <span>记住密码</span>
+      <el-tabs v-model="activeName" stretch>
+        <el-tab-pane label="登录" name="first">
+          <div class="login-container">
+            <el-form label-width="55px" :rules="rules" :model="ruleForm" ref="ruleForm">
+              <div class="input-box">
+                <el-form-item label="" prop="username">
+                  <img src="../assets/icon/login/用户名.png" alt="用户名" class="login-icon">
+                  <el-input v-model="ruleForm.username" auto-complete="off" placeholder="请输入邮箱"></el-input>
+                </el-form-item>
+                <el-form-item label="" prop="password" >
+                  <img src="../assets/icon/login/密码.png" alt="密码" class="login-icon">
+                  <el-input type="password" v-model="ruleForm.password" auto-complete="off" placeholder="请输入密码"></el-input>
+                </el-form-item>
               </div>
-              <el-button type="primary" @click="doLogin">登录</el-button>
-            </el-form-item>
+              <div class="login-box">
+                <el-form-item class="login-submit">
+                  <div class="remember-pass">
+                    <input type="checkbox" v-model="rememberPassword" @click="doRememberPassword">
+                    <span>记住密码</span>
+                  </div>
+                  <el-button type="primary" @click="doLogin">登录</el-button>
+                </el-form-item>
+              </div>
+            </el-form>
           </div>
-        </el-form>
-      </div>
+        </el-tab-pane>
+        <el-tab-pane label="注册" name="second">
+          <div class="login-container">
+            <el-form label-width="55px" :rules="rules" :model="RegForm" ref="RegForm">
+              <div class="input-box">
+                <el-form-item label="" prop="email">
+                  <img src="../assets/icon/login/邮箱.png" alt="邮箱" class="login-icon">
+                  <el-input v-model="RegForm.email" auto-complete="off" placeholder="请输入邮箱"></el-input>
+                </el-form-item>
+                <el-form-item label="" prop="username">
+                  <img src="../assets/icon/login/用户名.png" alt="用户名" class="login-icon">
+                  <el-input v-model="RegForm.username" auto-complete="off" placeholder="请输入用户名"></el-input>
+                </el-form-item>
+                <el-form-item label="" prop="password">
+                  <img src="../assets/icon/login/密码.png" alt="密码" class="login-icon">
+                  <el-input type="password" v-model="RegForm.password" auto-complete="off" placeholder="请输入密码"></el-input>
+                </el-form-item>
+              </div>
+              <div class="login-box">
+                <el-form-item class="login-submit">
+                  <el-button type="primary" @click="doRegister">注册</el-button>
+                </el-form-item>
+              </div>
+            </el-form>
+          </div>
+        </el-tab-pane>
+      </el-tabs>
     </div>
   </div>
 </template>
 
 <script>
-import {setCookie, getCookie, clearCookie} from "../http/cookies"
+import { setCookie, getCookie, clearCookie } from "../http/cookies"
+import { isValidEmail, isValidPassword } from "../utils/validate"
+import { postRegUserInfo, postLoginUserInfo } from "../network/postData"
+import { mapMutations } from 'vuex';
 
   export default {
     name: "Login",
     data() {
         return {
+          activeName: 'first',
           ruleForm: {
             username: '',
-            password: '',
+            password: ''
           },
-          name: '123456',
-          pass: '123456',
+          RegForm: {
+            username: '',
+            pass: '',
+            email: ''
+          },
           rememberPassword: false,
+          rules: {
+            username: [
+              { required: true, message: '账号不能为空', trigger: 'blur' },
+            ],
+            pass: [
+                {validator: isValidPassword, trigger: 'blur'}
+            ],
+            email: [
+              { required: true, message: '邮箱不能为空', trigger: 'blur' },
+              { validator: isValidEmail, trigger: 'blur' }
+            ],
+          }
         }
       },
     mounted() {
@@ -60,14 +107,13 @@ import {setCookie, getCookie, clearCookie} from "../http/cookies"
             self.ruleForm.password = info.password
             self.rememberPassword = true
           } 
-        }else {
-            console.log('cookie为空');
-          }
+        }
       } catch (error) {
         console.log(error);
       }
     },
     methods : {
+      ...mapMutations(['setToken']),
       doRememberPassword() {
         let mySelf = this;
         let rememberStatus = mySelf.rememberPassword;
@@ -81,15 +127,41 @@ import {setCookie, getCookie, clearCookie} from "../http/cookies"
           clearCookie()
         }
       },
+
+      ...mapMutations(['setToken']),
       doLogin() {
         let that = this
         let rememberPassword = this.rememberPassword
-        if(this.name == this.ruleForm.username && this.pass == this.ruleForm.password) {
-          this.$options.methods.rememberPass(rememberPassword, that.ruleForm.username, that.ruleForm.password)
-          this.$router.push('/main/integration')
-        }else {
-          this.$message.error('账号或密码错误，请核对后重新填写');
-        }
+        postLoginUserInfo(that.ruleForm.username, that.ruleForm.password).then(res => {
+          if(res.data['code']==200){
+            sessionStorage.clear()
+            that.token = res.data.data;
+            that.setToken({token: that.token});
+            this.$message.success('登录成功')
+            that.$options.methods.rememberPass(rememberPassword, that.ruleForm.username, that.ruleForm.password)
+            if(this.$store.state.token) {
+                this.$router.push('/main/integration');
+              } else {
+                this.$router.replace('/login');
+              }
+          }else{
+            this.$message.warning('用户名或者密码错误')
+          }
+        }).catch(error => {
+          console.log(error)
+        })
+      },
+      doRegister() {
+        let that = this
+        let RegForm = this.RegForm
+        postRegUserInfo(RegForm.email, RegForm.username, RegForm.password).then(res => {
+          if(res.data.message === "重复的数据") {
+            this.$message.error('该邮箱号已注册')
+            return false
+          }
+        }).catch(error => {
+          console.log(error)
+        })
       }
     }
   }
@@ -118,8 +190,11 @@ import {setCookie, getCookie, clearCookie} from "../http/cookies"
     display: flex;
     flex-direction: column;
   }
+  .wrapper >>> .el-tabs {
+    width: 400px;
+  }
   .sys-text {
-    padding: 3%;
+    padding: 2% 3% 0 3%;
     font-family: sans-serif;
     font-size: 4.5em;
     color: #5267E6;
@@ -128,11 +203,9 @@ import {setCookie, getCookie, clearCookie} from "../http/cookies"
   .sys-text img {
     width: 110px;
   }
-  .sys-text div:nth-of-type(2) {
-    margin-left: 10%;
-  }
   .login-container {
-    width: 40%;
+    margin-top: 10px;
+    width: 320px;
     background-color: none;
   }
   .login-icon {

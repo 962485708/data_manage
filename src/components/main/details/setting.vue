@@ -20,13 +20,13 @@
             <el-form-item label="端口号 port：" prop="port">
               <el-input v-model="dbInfo.port"></el-input>
             </el-form-item>
-            <el-form-item label="用户名 user：:" prop="user" :rules="[{ required: true, message: '用户名不能为空'},]">
+            <el-form-item label="用户名 user：:" prop="user" :rules="[{ required: true, message: '用户名不能为空'}]">
               <el-input v-model="dbInfo.user"></el-input>
             </el-form-item>
-            <el-form-item label="密码 password：" prop="password" :rules="[{ required: true, message: '密码不能为空'},]">
+            <el-form-item label="密码 password：" prop="password" :rules="[{ required: true, message: '密码不能为空'}]">
               <el-input v-model="dbInfo.password"></el-input>
             </el-form-item>
-            <el-form-item label="数据库 database：" prop="database" :rules="[{ required: true, message: '数据库不能为空'},]">
+            <el-form-item label="数据库 database：" prop="database" :rules="[{ required: true, message: '数据库不能为空'}]">
               <el-input v-model="dbInfo.database"></el-input>
             </el-form-item>
             <el-form-item class="submit">
@@ -35,16 +35,23 @@
             </el-form-item>
           </el-form>
         </el-tab-pane>
+        <div class="popover">
+          <el-popover
+            placement="top-start"
+            width="200"
+            trigger="hover"
+            content="填写数据库相关信息，接入数据表，在<数据展现>中以图像形式展现">
+            <el-button slot="reference"><img src="../../../assets/icon/main/question.png" alt="问题"></el-button>
+          </el-popover>
+        </div>
       </el-tabs>
-    </div>
-    <div class="set-tips">
-      <span>注意：</span>
     </div>
   </div>
 </template>
 
 <script>
 import { isValidIp, isPort } from '../../../utils/validate'
+import { postSettingForm } from '../../../network/postData'
 export default {
   data() {
     return {
@@ -71,18 +78,21 @@ export default {
     }
   },
   methods: {
-    submitForm(formName) {
-      this.$nextTick(() => {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            this.$message.success('正在获取数据表，请稍后…')
-            this.loadingBtn = true
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        })
+    submitForm() {
+      let dbInfo = this.dbInfo
+      postSettingForm(dbInfo).then( res => {
+        console.log(dbInfo)
       })
+      if (dbInfo.systerm != '') {
+        this.$message.success('正在获取数据表，请稍后…')
+        this.loadingBtn = true
+        postSettingForm(dbInfo).then(res => {
+          console.log(res)
+        })
+      } else {
+        this.$message.warning('数据信息不能为空')
+        return false;
+      }
     },
     resetForm(formName) {
       this[formName] = {};
@@ -144,5 +154,20 @@ export default {
   .setting>>>.submit .el-form-item__content {
     display: flex;
     justify-content: space-around;
+  }
+  .set-wrapper>>>.popover .el-button {
+    background: transparent;
+    border: none;
+    padding: 0;
+    float: right;
+  }
+  .set-wrapper>>>.popover .el-button img {
+    width: 20px;
+  }
+</style>
+<style>
+  .el-popover {
+    font-size: 12px;
+    line-height: 20px;
   }
 </style>

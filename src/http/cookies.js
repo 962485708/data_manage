@@ -23,7 +23,6 @@ export const getCookie = () => {
       'username': Decrypt(userArr[1]),
       'password': Decrypt(passArr[1])
     }
-    console.log(info);
     return info
   }
 }

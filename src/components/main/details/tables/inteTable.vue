@@ -2,17 +2,15 @@
   <div class="tab-pane">
     <el-tabs type="border-card" class="el-tabs">
       <el-tab-pane label="数据存储位置">
-        <el-form :model="dynamicValidateForm" ref="dynamicValidateForm" label-width="100px" class="demo-dynamic">
+        <el-form :model="fileForm" ref="fileForm" label-width="100px">
           <el-form-item
-            v-for="(formItem, index) in dynamicValidateForm.formItems"
+            v-for="(formItem, index) in fileForm.formItems"
             :label="'数据来源' + (index + 1)"
-            :key="formItem.key"
-            :rules="{
-              required: true, message: '文件不能为空', trigger: 'blur'
-            }">
+            :key="formItem.key">
             <el-upload
               class="file-upload"
               action="https://jsonplaceholder.typicode.com/posts/"
+              accept=".json"
               :on-success="handleSuccess"
               :on-remove="handleRemove"
               :limit="1">
@@ -22,26 +20,26 @@
           </el-form-item>
         </el-form>
         <div class="add-file" ref="addfile" @click="addFile">
-          <img src="../../assets/icon/main/plus.png" alt="增加数据来源">
+          <img src="../../../../assets/icon/main/plus.png" alt="增加数据来源">
           <span>增加数据来源</span>
         </div>
       </el-tab-pane>
     </el-tabs>
     <div class="submit">
-      <el-button type="primary" @click="submitForm('dynamicValidateForm')">提交</el-button>
-      <el-button type="primary" ref="dynamicValidateForm" :loading="loadingBtn">{{loadingBtn?'正在集成中':'下载集成数据包'}}</el-button>
+      <el-button type="primary" @click="submitForm()">提交</el-button>
+      <el-button type="primary" ref="fileForm" :loading="loadingBtn">{{loadingBtn?'正在集成中':'下载集成数据包'}}</el-button>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'tabPane',
+  name: 'inteTable',
   data() {
     return {
       fileList: [],
       loadingBtn: false,
-      dynamicValidateForm: {
+      fileForm: {
         formItems: [{
           value: ''
         }],
@@ -49,12 +47,22 @@ export default {
     }
   },
   methods: {
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          if(this.fileList.length > 0) {
-            this.$message.success('正在集成，请稍后…');
-            this.loadingBtn = true
+    submitForm() {
+        if (this.fileForm.formItems) {
+          let length = this.fileList.length
+          let fileList = this.fileList
+          if(length > 0) {
+            for(let i=0; i<length; i++) {
+              let reader = new FileReader()
+              reader.readAsDataURL(fileList[i].raw)
+              reader.onload = function(event) {
+                console.log(event.target.result)
+              //  let fileReaderArr = []
+              //  fileReaderArr.push(event.target.result)
+              }
+              this.$message.success('正在集成，请稍后…');
+              this.loadingBtn = true
+            }
           } else {
             this.$message.warning('文件不能为空')
           }
@@ -62,21 +70,23 @@ export default {
           console.log('error submit!!');
           return false;
         }
-      });
     },
     removeFile(item, index) {
       this.fileList.pop(index)
-      var _index = this.dynamicValidateForm.formItems.indexOf(item)
+      var _index = this.fileForm.formItems.indexOf(item)
       if (_index !== -1) {
-        this.dynamicValidateForm.formItems.splice(_index, 1)
+        this.fileForm.formItems.splice(_index, 1)
+      }
+      if(this.fileForm.formItems.length < 3) {
+        this.$refs.addfile.style.display = 'flex'
       }
     },
     addFile() {
-      this.dynamicValidateForm.formItems.push({
+      this.fileForm.formItems.push({
         value: '',
         key: Date.now()
       });
-      if(this.dynamicValidateForm.formItems.length === 3) {
+      if(this.fileForm.formItems.length === 3) {
         this.$refs.addfile.style.display = 'none'
       }
     },
@@ -84,10 +94,7 @@ export default {
       this.fileList = fileList
     },
     handleSuccess(response, file, fileList) {
-      this.fileList.push({
-        name: file.name,
-        url: file.response
-      });
+      this.fileList.push(file);
     },
   }
 }
@@ -120,8 +127,8 @@ export default {
   .add-file {
     display: flex;
     align-items: center;
-    font-size: 2em;
-    letter-spacing: 0.1em;
+    font-size: 14px;
+    letter-spacing: 1px;
     font-weight: 600;
     cursor: pointer;
   }
@@ -140,6 +147,14 @@ export default {
   .file-upload {
     display: flex;
     width: fit-content;
+  }
+  .tab-pane>>>.el-form-item__label {
+    text-align: center;
+    padding: 0;
+    color: #3AABEB;
+    font-weight: 600;
+    letter-spacing: 1px;
+    font-size: 16px;
   }
   .tab-pane>>>.el-form-item__content {
     display: flex;

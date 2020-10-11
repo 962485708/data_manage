@@ -4,7 +4,9 @@
     <div class="wrapper">
       <menu-left class="manual-left"/>
       <div class="menu-right">
-        <router-view/>
+        <keep-alive>
+          <router-view/>
+        </keep-alive>
       </div>
     </div>
   </div>
@@ -36,6 +38,7 @@ export default {
     width: 100%;
     margin-top: 60px;
     display: flex;
+    overflow: auto;
   }
   .wrapper:after {
     content: '';
@@ -54,9 +57,13 @@ export default {
   }
   .manual-left {
     width: 178px;
+    position: fixed;
+    top: 60px;
+    z-index: 99;
   }
   .menu-right {
     width: 100%;
     position: relative;
+    margin-left: 178px;
   }
 </style>

@@ -1,17 +1,17 @@
 //验证ip
 export const isValidIp = (rule, value, callback) => {
   const reg = /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/;
-    if (reg.test(value)) {
-      callback();
-    } else {
-      return callback(new Error('输入格式不合法！'));
-    }
+  if (reg.test(value)) {
+    callback();
+  } else {
+    return callback(new Error('输入格式不合法！'));
+  }
 }
 
 //验证端口号
 export const isPort = (rule, value, callback) => {
   if (!value) {
-    return callback(new Error('输入不可以为空'));
+    return callback(new Error('输入不能为空'));
   }
   setTimeout(() => {
     if (value == '' || typeof(value) == undefined) {
@@ -29,15 +29,21 @@ export const isPort = (rule, value, callback) => {
 }
 
 //验证邮箱
-export function isValidEmail(rule, value, callback) {
-  const reg =/^([a-zA-Z0-9]+[-_\.]?)+@[a-zA-Z0-9]+\.[a-z]+$/;
-  if(value==''||value==undefined||value==null){
-    callback();
-  }else{
-    if (!reg.test(value)){
-      callback(new Error('请输入正确的邮箱地址'));
+export const isValidEmail = (rule, value, callback) => {
+  const emailReg =/^(([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5}){1,25})$/
+  setTimeout(() => {
+    if (!emailReg.test(value)) {
+      return callback(new Error('邮箱格式错误'))
     } else {
-      callback();
+      callback()
     }
+  }, 100)
+}
+
+export const isValidPassword = (rule, value, callback) => {
+  if (value.length < 8) {
+    callback(new Error('密码不能少于8位'))
+  } else {
+    callback()
   }
 }

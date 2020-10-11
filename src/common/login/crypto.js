@@ -24,6 +24,5 @@ export const Encrypt = (word) => {
     mode: CryptoJS.mode.CBC,
     padding: CryptoJS.pad.Pkcs7
   });
-  console.log(encrypted.ciphertext.toString().toUpperCase());
   return encrypted.ciphertext.toString().toUpperCase();
 }

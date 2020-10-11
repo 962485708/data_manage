@@ -8,17 +8,17 @@
         <span>*</span>
         <span>数据来源</span>
       </div>
-      <tab-pane class="inte-form"/>
+      <inte-table class="inte-form"/>
     </div>
   </div>
 </template>
 
 <script>
-import tabPane from '../../../components/main/tabPane.vue'
+import inteTable from '../../../components/main/details/tables/inteTable.vue'
 export default {
   name: 'integration',
   components: {
-    tabPane
+    inteTable
   }
 }
 </script>

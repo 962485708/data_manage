@@ -1,6 +1,5 @@
 <template>
   <div class="develop">
-    <h2>研发部</h2>
     <diagram/>
   </div>
 </template>
