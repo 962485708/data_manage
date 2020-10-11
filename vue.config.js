@@ -2,6 +2,7 @@ module.exports = {
   outputDir: 'dist',
   assetsDir: 'assets',
   indexPath: 'index.html',
+  // publicPath: './',
   devServer: { // 开发环境下runtime
     open: true,
     port: 8080,

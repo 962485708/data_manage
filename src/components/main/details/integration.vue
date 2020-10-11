@@ -1,7 +1,7 @@
 <template>
   <div class="integration">
     <div class="inte-title">
-      <span>请配置需要继承的数据包或数据来源</span>
+      <span>请上传需要集成的JSON文件</span>
     </div>
     <div class="inte-wrapper">
       <div class="inte-wrapper-text">
