@@ -59,7 +59,7 @@ Vue.use(VueRouter)
           name:'setting',
           path:'setting',
           meta: { requireAuth: true },
-          component:()=>import('../components/main/details/setting.vue'),
+          component:()=>import('../components/main/details/setting.vue')
         },
       ]
     }

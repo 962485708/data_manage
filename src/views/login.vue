@@ -128,7 +128,6 @@ import { mapMutations } from 'vuex';
         }
       },
 
-      ...mapMutations(['setToken']),
       doLogin() {
         let that = this
         let rememberPassword = this.rememberPassword

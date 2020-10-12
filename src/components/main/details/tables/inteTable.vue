@@ -1,6 +1,6 @@
 <template>
   <div class="tab-pane">
-    <el-tabs type="border-card" class="el-tabs">
+    <el-tabs type="border-card" class="el-tabs" v-loading.fullscreen.lock="fullscreenLoading">
       <el-tab-pane label="数据存储位置">
         <el-form :model="fileForm" ref="fileForm" label-width="100px">
           <el-form-item
@@ -15,11 +15,20 @@
               :on-remove="handleRemove"
               :limit="1">
               <el-button size="small" type="primary">点击上传</el-button>
+              <el-select v-model="values[index]" placeholder="请选择">
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                  :disabled="item.disabled">
+                </el-option>
+              </el-select>
             </el-upload>
             <el-button @click.prevent="removeFile(formItem, index)">删除</el-button>
           </el-form-item>
         </el-form>
-        <div class="add-file" ref="addfile" @click="addFile">
+        <div class="add-file" ref="addfile" @click="addFile()">
           <img src="../../../../assets/icon/main/plus.png" alt="增加数据来源">
           <span>增加数据来源</span>
         </div>
@@ -27,7 +36,6 @@
     </el-tabs>
     <div class="submit">
       <el-button type="primary" @click="submitForm()">提交</el-button>
-      <el-button type="primary" ref="fileForm" :loading="loadingBtn">{{loadingBtn?'正在集成中':'下载集成数据包'}}</el-button>
     </div>
   </div>
 </template>
@@ -37,13 +45,25 @@ export default {
   name: 'inteTable',
   data() {
     return {
+      options: [{
+          value: '选项1',
+          label: '销售部'
+        }, {
+          value: '选项2',
+          label: '开发部',
+        }, {
+          value: '选项3',
+          label: '运营部'
+        }],
+      content: "请严格按照以下格式填写",
+      values: ['', '', ''],
       fileList: [],
-      loadingBtn: false,
       fileForm: {
         formItems: [{
           value: ''
         }],
       },
+      fullscreenLoading: false
     }
   },
   methods: {
@@ -56,12 +76,12 @@ export default {
               let reader = new FileReader()
               reader.readAsDataURL(fileList[i].raw)
               reader.onload = function(event) {
-                console.log(event.target.result)
+                console.log(event.target.result.slice(29))
               //  let fileReaderArr = []
               //  fileReaderArr.push(event.target.result)
               }
               this.$message.success('正在集成，请稍后…');
-              this.loadingBtn = true
+              this.fullscreenLoading = true
             }
           } else {
             this.$message.warning('文件不能为空')
@@ -80,6 +100,8 @@ export default {
       if(this.fileForm.formItems.length < 3) {
         this.$refs.addfile.style.display = 'flex'
       }
+      this.values[index] = ''
+      this.options[index].disabled = false
     },
     addFile() {
       this.fileForm.formItems.push({
@@ -88,6 +110,17 @@ export default {
       });
       if(this.fileForm.formItems.length === 3) {
         this.$refs.addfile.style.display = 'none'
+      }
+      let options = this.options
+      let values = this.values
+      let length = this.values.length
+      while (length-- && !values[length]);//获取value中非空元素的最大索引
+      
+      let index = options.findIndex(item => {
+        return item.value === values[length]
+      })
+      if(index > -1) {
+        options[index].disabled = true
       }
     },
     handleRemove(file, fileList) {
@@ -103,6 +136,7 @@ export default {
 <style scoped>
   .tab-pane {
     width: 68%;
+    position: relative;
   }
   .tab-pane>>>.el-tabs--border-card {
     border: none;
@@ -131,6 +165,7 @@ export default {
     letter-spacing: 1px;
     font-weight: 600;
     cursor: pointer;
+    width: fit-content;
   }
   .add-file img{
     width: 25px;
@@ -148,6 +183,9 @@ export default {
     display: flex;
     width: fit-content;
   }
+  .tab-pane>>>.el-input {
+    width: 100px;
+  }
   .tab-pane>>>.el-form-item__label {
     text-align: center;
     padding: 0;
@@ -163,11 +201,10 @@ export default {
   .tab-pane>>>.el-button--default {
     position: absolute;
     right: 30px;
-    top: 0;
   }
   .tab-pane>>>.el-upload-list {
-    margin-left: 30px;
-    width: 250px;
+    margin-left: 18px;
+    width: 200px;
   }
   .tab-pane>>>.el-upload-list__item-name {
     width: 160px;

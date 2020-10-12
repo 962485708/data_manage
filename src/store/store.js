@@ -5,7 +5,8 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
 	state: {
-		token: sessionStorage.getItem('token') ? sessionStorage.getItem('token') : ''
+		token: sessionStorage.getItem('token') ? sessionStorage.getItem('token') : '',
+		currentDb: {}
 	},
 	mutations: {
 		setToken (state,token) {

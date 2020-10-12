@@ -59,8 +59,6 @@ export default {
     var href = window.location.href
     href = href.split('/main/')[1]
     that.activeMenu = this.navConfig[href]
-  },
-  methods: {
   }
 }
 </script>

@@ -29,33 +29,33 @@ new Vue({
   },
 }).$mount('#app')
 
-axios.interceptors.request.use(config => {
-  //判断是否存在token，如果存在将每个页面header都添加token
-    if(store.state.token){
-      config.headers['Authorization']=store.state.token.token
-      // config.headers['Authorization']=store.state.token
-      console.log(config);
-    }
-    return config;
-  }, error => {
-    return Promise.reject(error);
-  });
+// axios.interceptors.request.use(config => {
+//   //判断是否存在token，如果存在将每个页面header都添加token
+//     if(store.state.token){
+//       config.headers['Authorization']=store.state.token.token
+//       // config.headers['Authorization']=store.state.token
+//       console.log(config);
+//     }
+//     return config;
+//   }, error => {
+//     return Promise.reject(error);
+//   });
   
-// http response 拦截器
-axios.interceptors.response.use(
-  response => {
-    return response;
-  },
-  error => {
-    if (error.response) {
-      switch (error.response.status) {
-        case 401:
-          this.$store.commit('del_token');
-          router.replace({
-            path: '/login',
-            query: {redirect: router.currentRoute.fullPath}//登录成功后跳入浏览的当前页面
-          })
-      }
-    }
-    return Promise.reject(error.response.data)
-  });
+// // http response 拦截器
+// axios.interceptors.response.use(
+//   response => {
+//     return response;
+//   },
+//   error => {
+//     if (error.response) {
+//       switch (error.response.status) {
+//         case 401:
+//           this.$store.commit('del_token');
+//           router.replace({
+//             path: '/login',
+//             query: {redirect: router.currentRoute.fullPath}//登录成功后跳入浏览的当前页面
+//           })
+//       }
+//     }
+//     return Promise.reject(error.response.data)
+//   });

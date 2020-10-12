@@ -28,17 +28,16 @@ export default {
     min-width: 1200px;
     min-height: 650px;
     width: 1200px;
-    height: 900px;
     margin: auto;
+    padding-bottom: 50px;
     position: relative;
   }
   .wrapper {
     position: relative;
-    height: 900px;
     width: 100%;
+    min-height: 100vh;
     margin-top: 60px;
     display: flex;
-    overflow: auto;
   }
   .wrapper:after {
     content: '';
