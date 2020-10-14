@@ -1,6 +1,6 @@
 <template>
   <div class="develop">
-    <diagram/>
+    <diagram :diagramdata="diagramdata"/>
   </div>
 </template>
 
@@ -9,7 +9,8 @@ import Diagram from '../../diagram.vue'
 export default {
   components: {
     Diagram
-  }
+  },
+  
 }
 </script>
 

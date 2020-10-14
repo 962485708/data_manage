@@ -8,7 +8,7 @@
         <span>*</span>
         <span>数据来源</span>
       </div>
-      <inte-table class="analysis-form"/>
+      <ana-data-table class="analysis-form"/>
     </div>
     <div class="ana-arith-wrapper">
       <div class="ana-arith-wrapper-text">
@@ -21,12 +21,12 @@
 </template>
 
 <script>
-import inteTable from '../../../components/main/details/tables/inteTable.vue'
+import anaDataTable from '../../../components/main/details/tables/anaDataTable.vue'
 import arithTable from '../../../components/main/details/tables/arithTable.vue'
 export default {
   name: 'analysis',
   components: {
-    inteTable,
+    anaDataTable,
     arithTable
   }
 }

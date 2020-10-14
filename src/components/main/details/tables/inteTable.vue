@@ -79,41 +79,44 @@ export default {
   },
   methods: {
     submitForm() {
-        if (this.fileForm.formItems) {
-          let length = this.fileList.length
-          let fileList = this.fileList
-          let fileReaderArr = []
-          let values = this.values
-          if(length > 0) {
-            for(let i=0; i<length; i++) {
-              let reader = new FileReader()
-              reader.readAsDataURL(fileList[i].raw)
-              reader.onload = function(event) {
-                fileReaderArr.push({file:event.target.result.slice(29), department: values[i]})
-              }
+      if (this.fileForm.formItems) {
+        let length = this.fileList.length
+        let fileList = this.fileList
+        let fileReaderArr = []
+        let values = this.values
+        if(length > 0) {
+          for(let i=0; i<length; i++) {
+            let reader = new FileReader()
+            reader.readAsDataURL(fileList[i].raw)
+            reader.onload = function(event) {
+              fileReaderArr.push({file:event.target.result.slice(29), department: values[i]})
             }
-              console.log(values)
-              console.log(fileReaderArr)
-              this.$message.success('正在集成，请稍后…');
-              // this.fullscreenLoading = true
-          } else {
-            this.$message.warning('文件不能为空')
           }
+            console.log(values)
+            console.log(fileReaderArr)
+            this.$message.success('正在集成，请稍后…');
+            // this.fullscreenLoading = true
         } else {
-          console.log('error submit!!');
-          return false;
+          this.$message.warning('文件不能为空')
         }
+      } else {
+        console.log('error submit!!');
+        return false;
+      }
     },
     removeFile(item, index) {
       this.fileList.pop(index)
-      var _index = this.fileForm.formItems.indexOf(item)
+      let _index = this.fileForm.formItems.indexOf(item)
       if (_index !== -1) {
-        this.fileForm.formItems.splice(_index, 1)
+        this.fileForm.formItems.splice(_index, 1)//数组自动向前补齐
       }
       if(this.fileForm.formItems.length < 7) {
         this.$refs.addfile.style.display = 'flex'
       }
-      this.values[index] = ''
+      let index_ = this.values.indexOf(this.values[index])
+      if(index_ !== -1) {
+        this.values.splice(index_, 1)
+      }
       this.options[index].disabled = false
     },
     addFile() {
