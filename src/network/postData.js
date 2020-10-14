@@ -3,7 +3,7 @@ import {postData} from "./request";
 //注册
 export const postRegUserInfo = (userMail, userName, userPassword) => {
   return postData({
-    url: 'api/user/create',
+    url: 'user/create',
     params: {
       userMail,
       userName,
@@ -14,7 +14,7 @@ export const postRegUserInfo = (userMail, userName, userPassword) => {
 //登录
 export const postLoginUserInfo = (userMail, userPassword) => {
   return postData({
-    url: 'api/user/login',
+    url: 'user/login',
     params: {
       userMail,
       userPassword

@@ -151,12 +151,13 @@ import { mapMutations } from 'vuex';
         })
       },
       doRegister() {
-        let that = this
         let RegForm = this.RegForm
         postRegUserInfo(RegForm.email, RegForm.username, RegForm.password).then(res => {
           if(res.data.message === "重复的数据") {
             this.$message.error('该邮箱号已注册')
             return false
+          } else {
+            this.$message.success('注册成功')
           }
         }).catch(error => {
           console.log(error)

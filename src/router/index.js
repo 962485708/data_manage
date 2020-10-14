@@ -26,6 +26,13 @@ Vue.use(VueRouter)
           component:()=>import('../components/main/details/integration.vue'),
         },
         {
+          name:'analysis',
+          path:'analysis',
+          meta: { requireAuth: true },
+          component:()=>import('../components/main/details/analysis.vue'),
+        },
+        //dataShow
+        {
           name:'market',
           path:'dataShow/market',
           meta: { requireAuth: true },
@@ -38,16 +45,34 @@ Vue.use(VueRouter)
           component:()=>import('../components/main/details/dataShow/develop.vue'),
         },
         {
+          name:'sale',
+          path:'dataShow/sale',
+          meta: { requireAuth: true },
+          component:()=>import('../components/main/details/dataShow/sale.vue'),
+        },
+        {
+          name:'security',
+          path:'dataShow/security',
+          meta: { requireAuth: true },
+          component:()=>import('../components/main/details/dataShow/security.vue'),
+        },
+        {
+          name:'account',
+          path:'dataShow/account',
+          meta: { requireAuth: true },
+          component:()=>import('../components/main/details/dataShow/account.vue'),
+        },
+        {
           name:'operation',
           path:'dataShow/operation',
           meta: { requireAuth: true },
           component:()=>import('../components/main/details/dataShow/operation.vue'),
         },
         {
-          name:'analysis',
-          path:'analysis',
+          name:'hr',
+          path:'dataShow/hr',
           meta: { requireAuth: true },
-          component:()=>import('../components/main/details/analysis.vue'),
+          component:()=>import('../components/main/details/dataShow/hr.vue'),
         },
         {
           name:'datawarn',

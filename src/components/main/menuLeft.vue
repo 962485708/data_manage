@@ -15,9 +15,13 @@
                 <span>数据展现</span>
               </template>
               <el-menu-item-group>
-                <el-menu-item index="2-1" :route="{path:'/main/dataShow/market'}">销售部</el-menu-item>
+                <el-menu-item index="2-1" :route="{path:'/main/dataShow/sale'}">销售部</el-menu-item>
                 <el-menu-item index="2-2" :route="{path:'/main/dataShow/develop'}">开发部</el-menu-item>
                 <el-menu-item index="2-3" :route="{path:'/main/dataShow/operation'}">运营部</el-menu-item>
+                <el-menu-item index="2-4" :route="{path:'/main/dataShow/account'}">财务部</el-menu-item>
+                <el-menu-item index="2-5" :route="{path:'/main/dataShow/hr'}">人力资源部</el-menu-item>
+                <el-menu-item index="2-6" :route="{path:'/main/dataShow/market'}">市场营销部</el-menu-item>
+                <el-menu-item index="2-7" :route="{path:'/main/dataShow/security'}">保卫部</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
             <el-menu-item index="3" :route="{path:'/main/analysis'}">
@@ -43,9 +47,13 @@ export default {
       activeMenu: '1',
       navConfig: {
         'index': '2',
-        'dataShow/market': '2-1',
+        'dataShow/sale': '2-1',
         'dataShow/develop': '2-2',
         'dataShow/operation': '2-3',
+        'dataShow/account': '2-4',
+        'dataShow/hr': '2-5',
+        'dataShow/market': '2-6',
+        'dataShow/security': '2-7',
         'integration': '1',
         'analysis': '3',
         'datawarn': '4',
@@ -91,6 +99,10 @@ export default {
   .nav-menu>>>.el-menu-item-group .el-menu-item {
     font-weight: 500;
     margin: 10px 0 10px 0;
+  }
+  .nav-menu>>>.el-menu-item-group {
+    height: 300px;
+    overflow-y: scroll;
   }
   .nav-menu>>>.el-menu-item-group__title {
     padding: 0;

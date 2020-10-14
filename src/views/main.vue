@@ -59,6 +59,7 @@ export default {
     position: fixed;
     top: 60px;
     z-index: 99;
+    height: fit-content;
   }
   .menu-right {
     width: 100%;

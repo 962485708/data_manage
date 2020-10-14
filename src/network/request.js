@@ -1,8 +1,8 @@
 import axios from 'axios'
+axios.defaults.baseURL = '/api'
 
 export function request(config) {
   const instance=axios.create({
-    baseURL:'',
     method:'get'
   });
 

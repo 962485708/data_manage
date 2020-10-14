@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <h2>销售</h2>
-  </div>
+  <div>市场营销部</div>
 </template>
 
 <script>

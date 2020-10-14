@@ -46,17 +46,28 @@ export default {
   data() {
     return {
       options: [{
-          value: '选项1',
+          value: '销售部',
           label: '销售部'
         }, {
-          value: '选项2',
+          value: '开发部',
           label: '开发部',
         }, {
-          value: '选项3',
+          value: '运营部',
           label: '运营部'
+        }, {
+          value: '财务部',
+          label: '财务部'
+        }, {
+          value: '人力资源部',
+          label: '人力资源部'
+        }, {
+          value: '市场营销部',
+          label: '市场营销部'
+        }, {
+          value: '保卫部',
+          label: '保卫部'
         }],
-      content: "请严格按照以下格式填写",
-      values: ['', '', ''],
+      values: ['', '', '', '', '', '', ''],
       fileList: [],
       fileForm: {
         formItems: [{
@@ -71,18 +82,20 @@ export default {
         if (this.fileForm.formItems) {
           let length = this.fileList.length
           let fileList = this.fileList
+          let fileReaderArr = []
+          let values = this.values
           if(length > 0) {
             for(let i=0; i<length; i++) {
               let reader = new FileReader()
               reader.readAsDataURL(fileList[i].raw)
               reader.onload = function(event) {
-                console.log(event.target.result.slice(29))
-              //  let fileReaderArr = []
-              //  fileReaderArr.push(event.target.result)
+                fileReaderArr.push({file:event.target.result.slice(29), department: values[i]})
               }
-              this.$message.success('正在集成，请稍后…');
-              this.fullscreenLoading = true
             }
+              console.log(values)
+              console.log(fileReaderArr)
+              this.$message.success('正在集成，请稍后…');
+              // this.fullscreenLoading = true
           } else {
             this.$message.warning('文件不能为空')
           }
@@ -97,7 +110,7 @@ export default {
       if (_index !== -1) {
         this.fileForm.formItems.splice(_index, 1)
       }
-      if(this.fileForm.formItems.length < 3) {
+      if(this.fileForm.formItems.length < 7) {
         this.$refs.addfile.style.display = 'flex'
       }
       this.values[index] = ''
@@ -108,7 +121,7 @@ export default {
         value: '',
         key: Date.now()
       });
-      if(this.fileForm.formItems.length === 3) {
+      if(this.fileForm.formItems.length === 7) {
         this.$refs.addfile.style.display = 'none'
       }
       let options = this.options
@@ -119,6 +132,7 @@ export default {
       let index = options.findIndex(item => {
         return item.value === values[length]
       })
+      console.log(index)
       if(index > -1) {
         options[index].disabled = true
       }
